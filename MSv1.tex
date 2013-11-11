@@ -1,0 +1,171 @@
+% figures in chp.tex files need to have paths relative to main.tex
+\documentclass[a4paper]{article}
+
+\usepackage{a4}
+\usepackage{epsfig}
+\usepackage{graphics,graphicx}
+\usepackage[lmargin=4cm,rmargin=2cm,tmargin=3.5cm,bmargin=3.5cm]{geometry}
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{tabulary}
+\usepackage{txfonts}
+\usepackage{mathtools}
+\usepackage{upgreek}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{longtable}
+  \newtheorem{lem}{Lemma}
+  \newtheorem{thm}{Theorem}
+  
+
+\makeatletter
+
+\newcommand\bappendix{%
+  \addtocontents{toc}{\protect\addvspace{10pt}Appendices}
+  \begingroup
+  \renewcommand\section{\stepcounter{appendix}%
+    \renewcommand\thesection{\thechapter.\Alph{appendix}}
+    \@startsection {section}{1}{\z@}%
+      {-3.5ex \@plus -1ex \@minus -.2ex}%
+      {2.3ex \@plus.2ex}%
+      {\normalfont\Large\bfseries}}}
+\makeatother
+\newcommand\eappendix{\endgroup}
+
+%\usepackage{lineno}
+%\setcounter{page}{1}
+
+%\pagenumbering{arabic}
+
+\usepackage{fancyhdr}
+
+\newcommand{\rr}{\raggedright}
+\newcommand{\tn}{\tabularnewline}
+\newtheorem{mydef}{Definition}
+
+\begin{document}
+
+\title{Trade-offs involving juvenile competition offer more robust coexistence than a fecundity-defence trade-off in communities dependent on disturbance for coexistence}
+\maketitle
+
+\section*{Abstract}
+The life history of plants vary on at least three important axes; fecundity, juvenile growth and defence against herbivory and/or abiotic disturbance such as fire. We use a time homogeneous Markov Chain model to enumerate the likelihood of coexistence for a variety of trade-offs along these three axes, and consider how robust to parameter changes this likelihood is. We show; (a) how disturbance is measured (frequency or intensity) has a significant effect on the observed community response, (b) when juvenile competition through rapid growth is traded off against other life history traits, coexistence is robust to changes in system capacity. However, when fecundity and defence against disturbance are traded off, increases in system capacity dramatically reduce the likelihood of coexistence, and; (c) A trade-off between fecundity and juvenile growth rates is most likely to contribute to coexistence in diverse communities experiencing disturbance.
+\vspace{0.5cm}
+keywords: lottery model; community ecology; life history; fire ecology; diversity
+
+\section{Introduction}\label{intro}
+Several previous studies \citep[e.g.][]{denslow1987tropical,sousa1984role} have suggested that disturbance events may play an important part in promoting diversity in some systems. Disturbance, that is, an event that results in the death of large number of individuals and alter niche opportunities \citep{shea2004moving}, creates an environment that prevents the exclusion of weaker competing species, such as pioneer species. One such disturbance event is fire, which significantly shapes vegetative structure and composition (REFS), with much fire management being used to achieve ecological goals such as maintaining key habitats (REFS). Vegetation shows ecological adaption in order to survive fire disturbances (REFS). These adaptions can vary significantly, and plant species also differ in other life history traits. The three important life history traits are reproduction, growth from seedling to adult, and defence against both herbivory and abiotic factors such as fire \citep{bazzaz1987allocating}. Trade-offs between these three traits may account for the high levels of diversity observed in natural systems. Theory has shown that these trade-offs can allow two or more species to coexist while competing for  the same resources in an environment \citep[e.g.][]{kisdi2003coexistence,levins1971regional,bonsall2004life}, suggesting that trade-offs are important for sustaining high levels of biodiversity in nature, although this coexistence may be unlikely or unstable \citep{nattrass2012quantifying,gyllenberg2005impossibility}. However, while some studies have compared several trade-offs \citep[e.g.][]{tilman1990constraints,grime1977evidence}, little is understood about how multiple trade-offs combine to affect community diversity, and which trade-offs are most likely to contribute to coexistence.
+
+Further, it has been argued that there are at least three different axes upon which disturbances should be measured: frequency; area affected; and intensity \citep{malanson1984intensity,miller1982community,sousa1984role}.  However, many empirical studies consider disturbance levels in forests as a single parameter, such as the total area lost in a given time period (effectively frequency multiplied by intensity) \citep[e.g.][]{molino2001tree,nakagawa2000impact,peterson1997tornado}. Fire ecology studies have often acknowledged the difference between different factors influencing fire, such as ignition probability and spread \citep[e.g.][]{kilgore1979fire,turner1994landscape}, observing that most fires are of low intensity and high frequency \citep{kilgore1979fire}, while spatial connectedness has an impact on overall fire intensity \citep{turner1994landscape}. However, there remain relatively few theoretical studies that consider the relative impact of frequency and intensity of disturbances \citep[but see ][]{miller2011frequency}. \cite{miller2011frequency} show how disturbance intensity and frequency have different effects on community dynamics and the community response depends greatly on the combination of the two. It seems likely that this may be a significant factor behind the relative lack of consensus on the effects of altered disturbance regimes in nature communities.
+
+
+Here, we compare the likelihood of pairwise trade-offs between fecundity, growth and defence against disturbance sustaining two species with identical resource requirements. Defence is taken to mean the ability of an individual to withstand a disturbance event, that is, an event that results in the death of large number of individuals and alters niche opportunities within the community, while seed production (seed number per capita per year) is used as the measure of fecundity. The probability of species disturbance intensity parameters resulting in coexistence is calculated, and we demonstrate that a fecundity-growth trade-off gives the greatest likelihood of coexistence. Trade-offs involving growth differences are robust to changes in community size, while a fecundity-defence trade-off cannot support coexistence in large systems for any expected fire disturbance intensity. We also demonstrate
+
+\section{The Model}
+\label{model}
+We consider a simple lottery type model, originally introduced by \cite{sale1978coexistence} and \cite{chesson1981environmental} and used extensively since \citep[e.g.][]{muko2000species,pacala1992herbivores}. There are a fixed number $N$ distinct sites, each capable of supporting a single adult individual, observed in continuous time $\tau$. At discrete times $\tau_1,\tau_2, \dots$, there is a tree death, selected at random from the community, followed by competition between the remaining individuals for the vacated site. We assume that the time to fill a gap with an individual is small enough that the gap created at time $\tau_t$ is filled by an adult individual by time $\tau_{t+1}$, i.e. death-replacement events are sufficiently far apart temporally that they do not overlap and can be considered as discrete events. This assumption makes it possible to model this system as a time homogeneous Markov Chain (MC) model. With the range of parameters considered below, the expected gap replenishment time is approximately 4 years. Simulations reducing the number of adult trees by 4\% (consistent with 1\% annual mortality for this replenishment period) do not exhibit any qualitative difference.
+
+Gaps are occupied by populations of two species $N_1(t), N_2(t)$, such that $N_1(t) + N_2(t) = N$, where $t$ represents time as measured by the number of replacement events that have occurred, i.e. $N_i(t)$ represents the population of species $i$ after the gap created at time $\tau_t$ has been filled, and before another gap is created at time $\tau_{t+1}$. Because after each death-replacement event, the number of individuals is fixed, we consider the dynamics of species 1 only, modelling $N_1(t)=n$ with $N_2(t)=N-n$. We assume 
+\begin{enumerate}
+\item The system is closed, so no seeds are introduced from elsewhere. Biologically, this could suggest an island population or community isolated by other geographic constraints. A low level of immigrating seeds does not qualitatively affect the results.
+\item The individuals considered are asexual or self-fertilising, so that a single individual can produce seeds, and that individuals are always reproductively active.
+\item The two species differ only in growth rates $g_i$, annual per capita seed production $s_i$ and resistance to disturbance $I_i$, with pairwise trade-offs between the three traits considered. Species 2 is assumed to have the higher growth rate of the two species, $g_2\geq g_1$. Note that if no trade-off occurs, coexistence is impossible. When species are identical, the system follows a random walk until one species goes extinct, while if one species dominates one of more life history trait, this species will exclude the other.
+\item As individuals compete for light in a gap, we assume complete asymmetric competition. Once the combined size of the juveniles in a gap is that of a single adult, then the largest individual will win the site. Competition for a site is therefore a race to reach size $C/2$, where $C=100$ is the size of an adult individual.
+\item It is possible for the faster growing species 2 to usurp juveniles of the slower growing species. The initial juvenile to reach a gap is determined by lottery, but species 2 may take over the site if further seeds arrive before a species 1 juvenile has grown sufficiently large. To usurp species 1, species 2 requires seeds to arrive before species 1 has been present for time $x=C(1/g_2-1/g_1)/2$.
+\item Seeds are all assumed to be viable and are dispersed at random in the environment by a homogeneous Poisson process (with rate $\lambda_i =s_iN_i(t)/N$) as per high distance dispersals in \cite{clark1999interpreting}.
+\item Disturbance events occur at each time step with probability $f=(dNT_D)^{-1}$ where $T_D$ is the expected number of years between disturbance events, and $d$ is the expected annual mortality rate (fixed at $1\%$). Within these events, individuals die with species-specific probability $I_i$ (a composite measure of disturbance intensity and species resistance), before the remaining individuals compete to fill the emptied sites. Increasing either frequency $f$ or intensity $I_i$ will result in an increase in total basal area lost over a given time frame, a standard measure of disturbance \citep[e.g.][]{molino2001tree,peterson1997tornado}.
+\end{enumerate}
+When a disturbance does not occur (with probability $1-f$), the number of species 1 individuals will increase if a species 2 individual dies, seeds from species 1 reach the site first, and then grow for time $x$ without species 2 reaching the site. As both species have the same dispersal kernel, this gives
+\begin{align}
+\label{increase}
+P(\text{Increase}(n))&=P(N_1(1)=n+1)|N_1(0)=n) \\
+&=\frac{N-n}{N}\frac{s_1 n}{s_1 n +s_2(N-n-1)}\exp \left( -s_2 \frac{N-n-1}{N} x\right),\notag \end{align}
+where the exponential term is the probability that no species 2 seeds arrive in time $x$. Similarly, species 1 will decline in numbers if it suffers a death, and species 2 claims the site, either arriving at the site first or by successfully invading a site where species 1 juveniles are present, giving
+\begin{align}
+\label{decrease}
+P(\text{Decrease}(n))=&P(N_1(1)=n-1 | N_1(0)=n)  \\ 
+=&\frac{n}{N}\frac{s_2 (N-n)}{s_1 (n-1) +s_2(N-n)} \notag \\
+& + \frac{n}{N}\frac{s_1 (n-1)}{s_1 (n-1) +s_2(N-n)}\left(1-\exp \left( -s_2 \frac{N-n}{N} x\right)\right). \notag \end{align}
+All other possibilities result in the populations of the two species remaining the same after a time step, so we use a third function $P(\text{Stay}(n))=1-P(\text{Increase}(n))-P(\text{Decrease}(n))$ to fully define the transition probabilities, giving a $(N+1) \times (N+1)$ tridiagonal transition matrix $A$, with $A_{i,i}=P(\text{Stay}(i-1)), A_{i,i+1}=P(\text{Increase}(i-1)), A_{i,i-1}=P(\text{Decrease}(i-1))$.
+
+During a disturbance event, each individual of species $i$ has a probability $I_i$ of mortality, resulting in $d_{dist}=d_1+d_2$ total deaths, where $d_i$ is the number of species $i$ deaths. The remaining $N-d_{dist}$ individuals compete over the empty site, with species 1 colonising if it reaches the site at least time $x$ before species 2. Therefore, species 1 will take a site with a probability defined by the function
+\begin{equation}
+\label{sp1}
+Sp_1(n_1^*,n_2^*)=\frac{s_1 n_1^*}{s_1n_1^*+s_2n_2^*}\exp \left(-s_2 x\frac{n_2^*}{N}\right),
+\end{equation}
+where $n_1^*,n_2^*$ are the populations remaining immediately after the deaths from a disturbance event.
+
+To determine system coexistence, we use stochastic invasion analysis, similar to that introduced by \cite{chesson1989invasibility} and \cite{ellner1989convergence}. \cite{chesson1982stabilizing} proved that when the boundary growth rates, or average changes at the boundaries are positive, such that each species will on average increase when rare, the populations are stochastically bounded away from zero, and coexistence is expected.  Note that because the model presented here uses a discrete state space, the invasion criteria are considered with a single individual of the invader present, as opposed to being assessed at 0 as in a continuous state space (we are modelling individuals, not densities or proportions of sites occupied). We approximate the expected change at the boundaries ($n=1,N-1$) using the formula
+\begin{equation}
+\label{avchange}
+\begin{array}{rl}
+\text{AverageChange}(n) = (1-f)\left[P(\text{Increase}(n))-P(\text{Decrease}(n))\right]&\\[0.75em]
++ f\left[ (nI_1 + (N-n)I_2) Sp_1(n(1-I_1),(N-n)(1-I_2)) - nI\right]&.
+\end{array}
+\end{equation}
+The first term in \eqref{avchange} is the expected change when disturbance does not occur multiplied by the within-event probability that there is no disturbance event. The second term indicates the expected change during a disturbance as measured by the expected remaining populations. This only approximates the actual expected average change, yet is a good approximation (Appendix~\ref{app:approximations}). Coexistence is predicted for regions of parameter space where the following 2 inequalities both hold;
+\begin{align}
+\label{ac1}\text{AverageChange}(1)&>0, \\
+\label{acn-1}\text{AverageChange}(N-1)&<0. \end{align}
+Note that when there is no disturbance ($T_D=\infty$), these conditions simplify to 
+\begin{align}
+\label{lowerboundarycond}P(\text{Increase}(1))&>P(\text{Decrease}(1)) \\
+\label{upperboundarycond}P(\text{Increase}(N-1))&<P(\text{Decrease}(N-1)). \end{align}
+In biological terms, these conditions can be considered as the following: If there is a single individual of a species remaining, for that species to persist it must produce offspring that successfully colonise at least one other site before the adult dies. We implicitly assume that either individuals are asexual, or that self-fertilisation is possible, and more complex models are required to investigate sexual populations that are self-incompatible. The colonisation of a second site therefore must be more likely than the death of this single individual. Analyses using these conditions are extensively checked against time series simulations.
+
+We determine the  likely contribution to coexistence of a trade-off by considering the region of $I_i - I_2$ space for which coexistence is predicted by the conditions \eqref{ac1} and \eqref{acn-1}. Trade-offs where a large proportion of parameter space predicts coexistence are considered more likely to contribute to the observed diversity in empirical communities. It is biologically unlikely that an increase in disturbance intensity experienced by one species will be matched by a decrease in the intensity disturbed by the second species. For example, if a fire increases in temperature, it is expected that all species present will experience an increase in mortality. To account for this, we link species specific intensities in a simple, linear manner $I_1=yI_2$. The size of the intensity range that predicts coexistence is then given by $I_2^* - I_2^+$, where $I_2^*$ is the intensity at which $AverageChange(N-1)=0$, while $I_2^+$ satisfies $AverageChange(1)=0$.
+
+\section{Results} \label{results}
+\subsection{Likelihood of coexistence}
+In the absence of disturbance, only the trade-off between fecundity and juvenile growth ($y=1, I_1=I_2=I$ can give coexistence of two species, when the time required for preemption $x$ satisfies
+\begin{equation}
+\label{xrange}
+x_{min}=\frac{N\ln\left(\frac{s_1(N-1)}{s_1(N-2)+s_2}\right)}{s_2}<x<\frac{N\ln\left(\frac{s_1(N-1)}{s_1+s_2(N-2)}\right)}{s_2(N-2)}=x_{max}.
+\end{equation}
+Note $x_{min},x_{max}>0$ for the fecundity-growth trade-off, with $s_1>s_2, g_1<g_2$. Note also that as system capacity $N$ is increased, this range of $x$ asymptotes to
+\begin{equation}
+\label{bignxrange}
+\frac{1}{s_2}-\frac{1}{s_1}<x<\frac{\ln\left(\frac{s_1}{s_2}\right)}{s_2}.
+\end{equation} 
+When the time required for preemption is small, $x<x_{min}$, the more fecund species 1 will exclude species 2. This holds when disturbance regimes are included, as the creation of multiple gaps increases the niche opportunities for the more fecund species, at the expense of the strong local competitor. When $x$ satisfies the conditions in \eqref{xrange}, low intensity or infrequent disturbances maintain coexistence, but disturbances with high or intermediate intensity will reduce the diversity by excluding the strong local competitor. This range of intensities that give coexistence increases in size monotonically with $x<x_{max}$, with all intensities $I \leq 0.695$ exhibiting coexistence for $s_1=500,s_2=50,x=x_{max}=10 \ln(555/56)/499,T_D=10$.
+
+More interesting is the case $x>x_{max}$, where disturbance is necessary for coexistence, as with trade-offs between disturbance-defence and fecundity or growth. In this region, as $x$ increases, the range of disturbance intensities $I$ that give coexistence decline. However, as shown in Figure~\ref{fig:comparison}, for $x>x_{max}$ coexistence is much more likely for the fecundity-growth trade-off than the trade-offs including defence against disturbance. (BIT OF STUFF ABOUT HOW THINGS CHANGE WITH PARAMETERS IN AN EXACT MANNER TO GO INTO THIS PARAGRAPH< BUT I THOUGHT IT MORE IMPORTANT TO GE THE STRUCTURE TO YOU).
+\begin{figure}
+  \includegraphics[width=4.5in]{Systemsizechanges.pdf}
+   \caption{How the probability of coexistence varies with system capacity $N$ for trade-offs between fecundity and growth (blue) ($x>x_{max}$), growth and defence (black) and fecundity and defence (pink, dashed). The fecundity-growth trade-off is much more likely to support coexistence than trade-offs including defence. Trade-offs including juvenile growth differences are robust to changes in system capacity, with the probability of coexistence tending to a positive value as $N \to \infty$. However, a fecundity-defence trade-off cannot support two species for large communities, with the likelihood of coexistence declining to zero as $N$ goes to infinity. Parameters used; Fecundity-defence trade-off $s_1=500,x=0,y=2$; Growth-defence trade-off $s_1=50,x=0.06,y=2/3$; Fecundity-growth trade-off $s_1=500,x=0.06,y=1$; All cases $s_2=50, T_D=10$.}
+ \label{fig:systemsize}
+\end{figure}
+
+\subsection{Different effects of disturbance frequency and intensity}
+All three trade-offs exhibit a similar response to changes in disturbance frequency (with $x>x_{max}$ in the case of the fecundity-growth trade-off), with the probability of coexistence peaking at intermediate disturbance frequency. However, the effects on community structure of changes in frequency is very different from the community changes when disturbance intensity varies, as demonstrated in Figure~\ref{fig:hockey}. 
+\begin{figure}[th]
+\centering
+  \includegraphics[width=3in]{hockeyTd.pdf}
+   \caption{\textbf{Coexistence with disturbance: }The region of coexistence (shaded area) for $x>x_{max}$ for a fecundity-growth trade-off. Changes in disturbance frequency or intensity can produce different DDRs, with the humped, unimodal DDR predicted by the IDH one of several possible outcomes. Parameter values (a) $s_1=500, s_2=50, x=0.06,N=1000$.}
+ \label{fig:hockey}
+\end{figure}
+
+Analysis shows that it is possible to get very differently shaped DDR curves in this model, and this is affected by which factor influencing disturbance is considered. Increasing intensity can give very different responses to altering the frequency of disturbances. If $f=(dNT_D)^{-1}$ is fixed such that $1/f<T$, where $T$ is the expected time to extinction (see Appendix~\ref{app2b}), increasing intensity will give a humped DDR. For example, if $\ln(T_D)=1$ is fixed in Figure~\ref{fig:hockey}, and intensity increased from $I=0.1$, we initially see an increase in diversity as intensity crosses the point $I\approx0.25$. As intensity is increased further, however, there is a decline in diversity at $I\approx0.72$. This produces the classic peaked DDR predicted by the IDH.
+
+However, if the fixed frequency is low, coexistence is impossible for any intensity $I$, and so a flat DDR is produced. Meanwhile, if intensity $I$ is fixed, while frequency of disturbance is varied, there are three possible scenarios: i) When $I$ is low (e.g. $I=0.1$), the stronger competitor, species 2, will dominate regardless of frequency; ii) For intermediate intensities (e.g. $I=0.5$), increasing frequency will cause diversity to increase from one species to two (when $\ln(T_D)\approx 5$ for $I=0.5$), a monotonically increasing DDR; iii) When intensity is high (e.g. $I=0.8$), increasing frequency will match the predictions of the IDH, giving a peaked DDR with coexistence occurring for intermediate frequencies (when $I=0.8$, the peak in diversity is predicted in the range $2\leq \ln(T_D) \leq 6$). However, this coexistence occurs for a narrow range of $f$ (Figure~\ref{fig:simulationdata} in Appendix~\ref{app2d}).
+
+When productivity is altered the effects depend on how productivity is implemented. Productivity, the production rate of new biomass, can be in the form of increased seed numbers (fecundity) or by increased juvenile growth rate. If juvenile growth rates are altered by a factor $\zeta$ for both species, then the effect is to alter the time $x$ for which species 2 can succeed with a secondary invasion by a factor $1/\zeta$, such that, for example, a doubling of juvenile growth rates halves the time species 1 juveniles spend vulnerable to competition.  In contrast, the effect of increased (or decreased) seed numbers by a factor $\phi$, with each individual therefore producing $\phi s_i$ seeds, is to increase (or decrease) the magnitude of the exponential term in $P(increase(n))$ and $P(decrease(n))$ by a factor $\phi$. This is equivalent to increasing (or decreasing) the time $x$ for which `invasion' is possible by the same factor. For large communities, considering a proportion of each species non reproductive has an equivalent effect. Note that if both growth rates and seed numbers vary with productivity the effective value of $x$ will be altered by a factor $\phi / \zeta$. Note that this dictates productivity has no effect on the outcome when considering a fecundity-defence trade-off.
+
+\section{Discussion}
+Both life history trade-offs and disturbance events have been suggested as mechanisms that can promote and support high levels of diversity in nature \citep[e.g.][]{adler2000space,denslow1987tropical,sousa1984role,turnbull1999seed}. Here, we demonstrate that trade-offs among the three major life history traits for plants can give coexistence of at least two species competing within the same niche, and numerically quantify the likelihood of coexistence for each trade-off. However, the effectiveness of these trade-offs in supporting multiple species varies dramatically. Where species do not differ in juvenile growth rates, only small communities can possibly support more than a single species, and even in these small communities coexistence is extremely unlikely outside a very narrow range of parameters. This result suggests that a trade-off between seed production and resilience cannot realistically contribute to the diversity of a community. This result has some support in the literature: from the data in \cite{martin2010dispersal}, \cite{martin2010divergence} concluded that ``it is unlikely that... survivorship come[s] at the expense of fecundity.'' However, some other studies do find a correlation between fecundity and defence \citep[e.g.][]{marquis1984leaf,gwynn2005resistance}. \cite{gwynn2005resistance} demonstrate that, at least for animals, parasite resistance comes with a reproductive cost, while \cite{muller2010tolerance} suggests there is a trade-off between fecundity and tolerance to shade or drought. However, \cite{muller2010tolerance} considers disturbance rate $m$ as a constant, identical across species, and as a separate parameter to species specific tolerance $h_i$, in a heterogeneous environment. Here, in contrast, we consider a homogeneous environment in which species react differently to pulses of increased death rate. While tolerance to constant environmental stress may indeed trade-off against fecundity, we propose that the limited evidence for a trade-off between survival of a pulse-type disturbance, such as a hurricane hitting a region of mature forest, and fecundity is a consequence of other, more strongly selected trade-offs such as the growth-survival and fecundity-growth trade-offs.
+
+There is also some evidence for a fecundity-defence trade-off in edge forests exposed to fire. Williams et al (REF) show that after a fire, Australian forest species experience a recruitment boost, yet are more susceptible to fire than the eucalypts they are in competition with, while Hofman et al (REF) find that savanna species suffer lower levels of topkill than forest species. However, both these studies find there are significant levels of re-sprouting following disturbances. Williams et al state that the key advantage of eucalypts when competing with rainforest species is that they re-sprout at a canopy level, rather than ground level. This allows them to maintain their presence in the forest-edge community, while forest species re-sprouting at ground level will not be able to colonise the area of an eucalyptus individual. This indicates that trade-offs in nature are likely to be complex, and trade-offs may lead to correlations with other life history. For example, wood density has been found to be positively associated with seed size, larger seeds produce denser wood in adult trees \cite{ter2001character}. Seed mass has previously been found to correlate negatively with seed number \citep{turnbull1999seed}, and positively with both defence \citep{niklas1992plant} and plant growth rate \citep{gross1984effects}. However, these results are somewhat equivocal, as wood density has also been reported to correlate with growth rate in a negative manner \citep{king2005tree}. Wood density also correlates slightly negatively with tree size (Wei), while bark thickness, an indicator of disturbance resistance, increases with size. While we consider bark thickness as a measure of fire resistance, this complexity may mean that selection for non disturbance related traits influences bark thickness, and therefore defence. 
+
+Meanwhile, trade-offs between growth and either fecundity or disturbance resistance (or both) can support multiple species for any system capacity $N$. In a large system, we demonstrate that a trade-off involving all three of the major plant traits will give a probability of randomly selected disturbance resistances supporting two species higher than the probability given by a growth-defence trade-off alone. However, when species responses to disturbance are proportional (such that disturbance intensity for one species is doubled, the intensity for the second species is also doubled), the three dimensional trade-off does not significantly improve the likelihood of coexistence when compared to a fecundity-growth trade-off. These results suggest that the trade-off between fecundity and juvenile growth rate, or competition and colonisation, contributes much more to the maintenance of biodiversity than trade-offs involving disturbance resistance.
+
+We also demonstrate that while the response to disturbance frequency is relatively simple, frequency and intensity can have very different effects on community structure, in accordance with recent theory \citep{miller2011frequency}. We add to this theory by determining analytic conditions for coexistence under given disturbance regimes, and by demonstrating that these conditions are robust to model type, productivity and system size in the case where species differ in juvenile growth rates. In general, this result indicates that it is important to consider the intensity and frequency of disturbance events as separate parameters when studying the effects of disturbance on diversity levels, and emphasise that past disturbances can have long-lasting effects, which persist for decades or centuries, in accordance with \cite{foster1999human}. In the current model, these effects come in the form of persistence of inferior competitor species, which can be sustained for many time steps between disturbances as infrequently as every 400 years. The result here is increased diversity within the community, but disturbance can effect several other aspects of the environment, such as net primary production \citep[e.g.][]{turner2010disturbance}. These results, while arising in a new model, are qualitatively similar to those of \cite{miller2011frequency}, adding weight to the suggestion that the separation of factors controlling disturbance is an important consideration in studying the effects of disturbance on a community. We build on this work by showing that these qualitative results are extremely robust to changes in system capacity and productivity.
+
+
+We conclude that a trade-off between fecundity, in the form of per capita annual seed production, and juvenile growth rates is more significant in sustaining biodiversity than trade-offs between growth and defence or fecundity and defence, and while species specific reactions to disturbance can slightly improve the likelihood of a fecundity-growth trade-off allowing two species coexistence, this increase is not significant. This concurs with empirical studies, which have found a great deal of support for a trade-off between fecundity and growth rate, or the equivalent competition-colonisation trade-off \citep[e.g.][]{levins1971regional,yu2001competition,tilman1994competition,adler2000space}. The high level of occurrence for this trade-off indicates that it has been an important driver in the evolution of those diverse communities, allowing two or more species to effectively occupy the same resource niche by the different allocation of that resource to their life history traits. That a trade-off between growth and defence can support some coexistence suggests that some support should be found for this trade-off in empirical studies, and this is indeed the case \citep[e.g.][]{wright2010functional,fine2006growth}. However, support for this is much less widespread than the fecundity-growth or competition-colonisation trade-off, which further supports our conclusion that the latter is the more significant driver of biodiversity.
+\end{document}
