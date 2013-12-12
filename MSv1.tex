@@ -30,7 +30,7 @@
   \addtocontents{toc}{\protect\addvspace{10pt}Appendices}
   \begingroup
   \renewcommand\section{\stepcounter{appendix}%
-    \renewcommand\thesection{\thechapter.\Alph{appendix}}
+    \renewcommand\thesection{\Alph{appendix}}
     \@startsection {section}{1}{\z@}%
       {-3.5ex \@plus -1ex \@minus -.2ex}%
       {2.3ex \@plus.2ex}%
@@ -120,7 +120,7 @@ Note that when there is no disturbance ($T_D=\infty$), these conditions simplify
 \label{upperboundarycond}P(\text{Increase}(N-1))&<P(\text{Decrease}(N-1)). \end{align}
 In biological terms, these conditions can be considered as the following: If there is a single individual of a species remaining, for that species to persist it must produce offspring that successfully colonise at least one other site before the adult dies. We implicitly assume that either individuals are asexual, or that self-fertilisation is possible, and more complex models are required to investigate sexual populations that are self-incompatible. The colonisation of a second site therefore must be more likely than the death of this single individual. Analyses using these conditions are extensively checked against time series simulations.
 
-We determine the  likely contribution to coexistence of a trade-off by considering the region of $I_i - I_2$ space for which coexistence is predicted by the conditions \eqref{ac1} and \eqref{acn-1}. Trade-offs where a large proportion of parameter space predicts coexistence are considered more likely to contribute to the observed diversity in empirical communities. It is biologically unlikely that an increase in disturbance intensity experienced by one species will be matched by a decrease in the intensity disturbed by the second species. For example, if a fire increases in temperature, it is expected that all species present will experience an increase in mortality. To account for this, we link species specific intensities in a simple, linear manner $I_1=yI_2$. The size of the intensity range that predicts coexistence is then given by $I_2^* - I_2^+$, where $I_2^*$ is the intensity at which $AverageChange(N-1)=0$, while $I_2^+$ satisfies $AverageChange(1)=0$. \textbf{For trade-offs including species specific growth rates, this is calculated using the FindRoot function in Mathematica 8. However, for a fecundity-defence trade-off, the absence of an exponential term allows the explicit calculation of the roots $I_2^*,I_2^+$, as outlined in Appendix~\ref{app:fdtoroots}.}
+We determine the  likely contribution to coexistence of a trade-off by considering the region of $I_1 - I_2$ space for which coexistence is predicted by the conditions \eqref{ac1} and \eqref{acn-1}. Trade-offs where a large proportion of parameter space predicts coexistence are considered more likely to contribute to the observed diversity in empirical communities. It is biologically unlikely that an increase in disturbance intensity experienced by one species will be matched by a decrease in the intensity disturbed by the second species. For example, if a fire increases in temperature, it is expected that all species present will experience an increase in mortality. To account for this, we link species specific intensities in a simple, linear manner $I_1=yI_2$. The size of the intensity range that predicts coexistence is then given by $I_2^* - I_2^+$, where $I_2^*$ is the intensity at which $AverageChange(N-1)=0$, while $I_2^+$ satisfies $AverageChange(1)=0$. \textbf{This is then scaled by the range of $I_2$ values for which both species can survive in monoculture, i.e. $\min(1,1/y)$, such that $P(coexist)=(\min(1/y,I_2^*) - \min(1/y,I_2^+))/\min(1,1/y)$, where $\min(1,1/y)$ is used to replace the calculated root if the root falls outside the possible range of intensities.} For trade-offs including species specific growth rates, the roots are calculated using the FindRoot function in Mathematica 8. However, for a fecundity-defence trade-off, the absence of an exponential term allows the explicit calculation of the roots $I_2^*,I_2^+$, as outlined in Appendix~\ref{app:fdtoroots}.
 
 \section{Results} \label{results}
 \subsection{Likelihood of coexistence}
@@ -144,44 +144,53 @@ More interesting is the case $x>x_{max}$, where disturbance is necessary for coe
 \end{figure}
 The trade-off between fecundity and defence against disturbance reacts differently to changes in system capacity $N$ than trade-offs involving juvenile growth. Both fecundity-growth and growth-defence trade-offs increase with $N$ initially, but the probability of coexistence asymptotes to a fixed value as $N$ increases towards infinity. In contrast, as $N$ increases in the fecundity-defence case, the root $I_2^*$ increase above $1/y$, the point at which coexistence is not possible as $I_1 \geq 1$, which causes species 1 to go extinct within the first disturbance event. In this case, we define coexistence as $\min(1/y,I_2^*) - \min(1/y,I_2^+)$, and as $N$ increases above the point at which $I_2^*=1/y$, the probability of coexistence begins to decrease, tending to zero as the system capacity gets very large.
 
-However, a trade-off between defence and fecundity is more robust to changes in the parameter $y$ than a growth-defence trade-off. Coexistence is possible for any $y>1$ along a fecundity-defence trade-off, with the probability of coexistence increasing slightly with $y$, reaching a maximum as $y \to \infty$, such that $I_2=0$ for all $I_1 \leq 1$. However, as $y<1$ is decreased in the growth-defence case, there is a threshold value $y^*$ at which $I_2^*=I_2^+$ For $y<y^*$, invasion by either species is not possible, instead giving a region of $I$- space where founder control occurs. The value of $y^*$ decreases as the time required for preemption $x$ increases, and has the value INSERT for parameters $s_1=s_2=50,x=0.06,N=1000,T_D=10$.
+However, a trade-off between defence and fecundity is more robust to changes in the parameter $y$ than a growth-defence trade-off. Coexistence is possible for any $y>1$ along a fecundity-defence trade-off, with the probability of coexistence increasing slightly with $y$, reaching a maximum as $y \to \infty$, such that $I_2=0$ for all $I_1 \leq 1$. However, as $y<1$ is decreased in the growth-defence case, there is a threshold value $y^*$ at which $I_2^*=I_2^+$ For $y<y^*$, invasion by either species is not possible, instead giving a region of $I$- space where founder control occurs. The value of $y^*$ decreases as the time required for preemption $x$ increases, and has the value $y^* \approx 0.185$ for parameters $s_1=s_2=50,x=0.06,N=1000,T_D=10$.
+
+\subsection{Robustness of coexistence to altered parameters}
+A fecundity-defence trade-off also exhibits sensitivity to changes in seed numbers. For fixed $s_2$ as $s_1>s_2$ increases, there is initially a rapid increase in the likelihood of probability. However, a threshold is reached when $I_2^*$ increases above $1/y$. At this point, the likelihood of coexistence decreases, and as $s_1$ tends to infinity, the likelihood of both species coexisting tends to zero. For $s_2=50,T_D=10,y=2$, the maximum likelihood of coexistence occurs at approximately $s_1=890$. Increasing productivity, the production rate of new biomass, in this case by altering seed numbers for both species by a factor $\phi$, does not have any effect on the likelihood of coexistence. For all parameters considered, the maximum probability of coexistence is approximately 0.2.
+
+When the trade-off is between growth and defence, the likelihood of coexistence is maximised when the time for which the slower growing species must occupy a site uncontested to claim the site $x$ is intermediate. For low values of $x$, the likelihood of coexistence increases with the difference in species growth rates, b,efore declining as the difference in growth rates becomes large. For $s_1=s_2=50,T_D=10,y=2/3$, the maximal coexistence is given by $x \approx 0.203$, where $P(coexist)\approx 0.136$. At this point,  A fecundity-growth trade-off exhibits a similar response to changes in $x$, with the probability of coexistence peaking at intermediate values.
+
+When productivity is altered in the fecundity-growth or growth-defence cases, the effects depend on how productivity is included in the model. Productivity, the production rate of new biomass, can be in the form of increased seed numbers (fecundity), increased juvenile growth rate, or both. Multiplying juvenile growth rates by a factor $\zeta$, such that the growth rate of species $i$ becomes $\zeta g_i$ with lead to the transformation $x \to x/\zeta$. Therefore, an increase (decrease) in growth rates will result in a decrease (increase) in the time $x$ the slower growing species must be present in an uncontested site before it can overcome seedlings of the faster growing species 2. The community response to this change therefore depends on the value of $x$ initially. If $x$ is low, an increase in growth rates will decrease the likelihood of coexistence, but for species with large differences in growth rates (and therefore large $x$) an increase in growth rates will increase the likelihood of coexistence.
+
+In contrast, if seed numbers are multiplied so an individual of species $i$ produces $\phi s_i$ seeds per year, the effect is to increase the amount of time $x$ required for preemption to occur. The factor $\phi$ cancels from numerator and denominator of the colonisation probability \eqref{sp1}, leaving only the exponential term alters, the factor $-s_2 x$ becoming $-s_2 \phi x$. Note this is equivalent to multiplying $x$ by a factor $\phi$. Therefore, an increase (decrease) in seed production will mean an increase (decrease) in $x$, the opposite effect as when growth rate change. Therefore, an increase in seed production will improve the likelihood of coexistence when $x$ is small, but decrease coexistence probability when $x$ is large and species differ greatly in growth rates. Note that if both seed production and growth rates are effected by a change in productivity, $x$ will effectively transform to $x \phi / \zeta$. Note also that with a fecundity-growth trade-off, this can move $x$ into the range that gives coexistence in the absence of disturbance (Figure~\ref{fig:FvIwithprod}(g)).
+
+\begin{figure}[th]
+\centering
+\begin{tabular}{lcccccc}
+ &(a)&$\frac{\phi}{\zeta}=\frac{1}{3}$&(b)&$\frac{\phi}{\zeta}=1$&(c)&$\frac{\phi}{\zeta}=3$\\
+ && \includegraphics[width=1.5in]{fdphizeta1over3.pdf} && \includegraphics[width=1.5in]{fdphizeta1.pdf} && \includegraphics[width=1.5in]{fdphizeta1over3.pdf} \\
+ &(d)&&(e)&&(f)&\\
+ && \includegraphics[width=1.5in]{gdphizeta1over3.pdf} && \includegraphics[width=1.5in]{gdphizeta1.pdf} && \includegraphics[width=1.5in]{gdphizeta3.pdf} \\
+ &(g)&&(h)&&(i)&\\
+ && \includegraphics[width=1.5in]{fgphizeta1over3.pdf} && \includegraphics[width=1.5in]{fgphizeta1.pdf} && \includegraphics[width=1.5in]{fgphizeta3.pdf} \\
+ \end{tabular}
+ Time between disturbances $\ln(yrs)$
+   \caption{\textbf{Coexistence with productivity changes: }The region of coexistence (shaded area), with $x>x_{max}$ for a fecundity-growth trade-off, responds to a change in productivity where the number of seeds produced is multiplied by a factor $\phi$ and growth rates by a factor $\zeta$. (a-c) Productivity changes on a fecundity-defence trade-off have no effect on the region of coexistence. (d-f) On a growth-defence trade-off, low $\phi/\zeta$ (either faster growth rates or low seed production effectively reduces the time required for preemption $x$. This will increase the likelihood of coexistence for high $x$ (shown here) but cause a reduction in coexistence if $x$ is sufficiently low initially. High $\phi/\zeta$, caused by lowering growth rates or high seed production has the opposite effect. (g-i) On a fecundity-growth trade-off, when $x>x_{max}$, an increase in $\phi/\zeta$ ensures the system needs higher intensity disturbances to exhibit coexistence, and reduces the likelihood of coexistence. Lowering $\phi/\zeta$ mimics the effect of lowering the difference in growth rates, and increases coexistence. Note this can allow coexistence when disturbance does not occur ($T_D \to \infty$ or $I_2=0$ in (g)). Parameters used; Fecundity-defence trade-off $s_1=500,x=0,y=2$; Growth-defence trade-off $s_1=50,x=0.06,y=2/3$; Fecundity-growth trade-off $s_1=500,x=0.06,y=1$; All cases $s_2=50$.}
+ \label{fig:FvIwithprod}
+ \end{figure}
 
 \subsection{Different effects of disturbance frequency and intensity}
 All three trade-offs exhibit a similar response to changes in disturbance frequency (with $x>x_{max}$ in the case of the fecundity-growth trade-off), with the probability of coexistence peaking at intermediate disturbance frequency. However, the effects on community structure of changes in frequency is very different from the community changes when disturbance intensity varies, as demonstrated in Figures~\ref{fig:FvIwithN}~and~\ref{fig:hockeyTd}. 
 \begin{figure}[th]
 \centering
 \begin{tabular}{lcccccc}
- &(a)&$\ln(N)=3$&(b)&$\ln(N)=7$&(c)&$\ln(N)=15$\\
- && \includegraphics[width=1.5in]{fdtoimageexp3.pdf} && \includegraphics[width=1.5in]{fdtoimageexp7.pdf} && \includegraphics[width=1.5in]{fdtoimageexp15.pdf} \\
- &(d)&&(e)&&(f)&\\
- && \includegraphics[width=1.5in]{gdtoimageexp3.pdf} && \includegraphics[width=1.5in]{gdtoimageexp7.pdf} && \includegraphics[width=1.5in]{gdtoimageexp15.pdf} \\
- &(g)&&(h)&&(i)&\\
- && \includegraphics[width=1.5in]{fgtoimageexp3.pdf} && \includegraphics[width=1.5in]{fgtoimageexp7.pdf} && \includegraphics[width=1.5in]{fgtoimageexp15.pdf} \\
+ &(a)&$\ln(N)=4$&(b)&$\ln(N)=7$&(c)&$\ln(N)=15$\\
+ && \includegraphics[width=1.5in]{fdtoimageexp4.pdf} && \includegraphics[width=1.5in]{fdtoimageexp7.pdf} && \includegraphics[width=1.5in]{fdtoimageexp15.pdf}
  \end{tabular}
  Time between disturbances $\ln(yrs)$
-   \caption{\textbf{Coexistence with disturbance: }The region of coexistence (shaded area) for $x>x_{max}$ for a fecundity-growth trade-off. Changes in disturbance frequency or intensity can produce different DDRs, with the humped, unimodal DDR predicted by the IDH one of several possible outcomes. Parameters used; Fecundity-defence trade-off $s_1=500,x=0,y=2$; Growth-defence trade-off $s_1=50,x=0.06,y=2/3$; Fecundity-growth trade-off $s_1=500,x=0.06,y=1$; All cases $s_2=50$.}
+   \caption{\textbf{Coexistence with disturbance: }The region of coexistence (shaded area) for $x>x_{max}$ for a fecundity-defence trade-off, and the effect of increasing system capacity. Likelihood of coexistence is maximised at intermediate system capacity. Parameters used;  $s_1=500,s_2=50,x=0,y=2$.}
  \label{fig:FvIwithN}
 \end{figure}
 Both trade-offs featuring juvenile growth rates exhibit similar behaviour. Either high frequency, medium intensity or intermediate frequency, high intensity disturbances can support two species (although the analytic predictions here are less accurate for high intensities (Appendix~\ref{app:simcompare}). These results are robust to changes in systems size, as the region of coexistence stabilises to a fixed region when $N$ increases. A fecundity-defence trade-off responds differently. For small system capacity $N$, only very high frequency, high intensity disturbance regimes can support coexistence (Figure~\ref{fig:FvIwithN}(a)). For intermediate $N$, patterns are similar to those observed with the trade-offs involving growth, although higher intensities (for the more susceptible species) are necessary for coexistence (Figure~\ref{fig:FvIwithN}(b)). As $N$ is increased further, coexistence requires much longer time periods between disturbances to maintain two species. In this case, exemplified in Figure~\ref{fig:FvIwithN}(c), many communities will experience disturbances too frequent for any range of intensities to support more than a single species.
 
-Focussing on the fecundity-growth trade-off model, analysis shows that it is possible to get very differently shaped DDR curves in this model (Figure~\ref{fig:hockeyTd}), and this is affected by which factor influencing disturbance is considered. Increasing intensity can give very different responses to altering the frequency of disturbances. If $f=(dNT_D)^{-1}$ is fixed such that $1/f<T$, where $T$ is the expected time to extinction (see Appendix~\ref{app2b}), increasing intensity will give a humped DDR. For example, if $\ln(T_D)=1$ is fixed, and intensity increased from $I=0.1$, we initially see an increase in diversity as intensity crosses the point $I\approx0.25$. As intensity is increased further, however, there is a decline in diversity at $I\approx0.72$. This produces the classic peaked DDR predicted by the IDH (See (1) in Figure~\ref{fig:hockeyTd}).
+Focussing on the fecundity-growth trade-off model, analysis shows that it is possible to get very differently shaped DDR curves in this model, and this is affected by which factor influencing disturbance is considered. Increasing intensity can give very different responses to altering the frequency of disturbances. If $f=(dNT_D)^{-1}$ is fixed such that $1/f<T$, where $T$ is the expected time to extinction, increasing intensity will give a humped DDR. For example, if $\ln(T_D)=1$ is fixed, and intensity increased from $I=0.1$, we initially see an increase in diversity as intensity crosses the point $I\approx0.25$. As intensity is increased further, however, there is a decline in diversity at $I\approx0.72$. This produces the classic peaked DDR predicted by the IDH.
 
-However, if the fixed frequency is low, coexistence is impossible for any intensity $I$, and so a flat DDR is produced ((3) in Figure~\ref{fig:hockeyTd}). Meanwhile, if intensity $I$ is fixed, while frequency of disturbance is varied, there are three possible scenarios: i) When $I$ is low (e.g. $I=0.1$), the stronger competitor, species 2, will dominate regardless of frequency ((3) in Figure~\ref{fig:hockeyTd}); ii) For intermediate intensities (e.g. $I=0.5$), increasing frequency will cause diversity to increase from one species to two (when $\ln(T_D)\approx 5$ for $I=0.5$), a monotonically increasing DDR ((2) in Figure~\ref{fig:hockeyTd}); iii) When intensity is high (e.g. $I=0.8$), increasing frequency will match the predictions of the IDH, giving a peaked DDR with coexistence occurring for intermediate frequencies (when $I=0.8$, the peak in diversity is predicted in the range $2\leq \ln(T_D) \leq 6$). However, this coexistence occurs for a narrow range of $f$ (Figure~\ref{fig:simulationdata} in Appendix~\ref{app2d}).
+However, if the fixed frequency is low, coexistence is impossible for any intensity $I$, and so a flat DDR is produced. Meanwhile, if intensity $I$ is fixed, while frequency of disturbance is varied, there are three possible scenarios: i) When $I$ is low (e.g. $I=0.1$), the stronger competitor, species 2, will dominate regardless of frequency ; ii) For intermediate intensities (e.g. $I=0.5$), increasing frequency will cause diversity to increase from one species to two (when $\ln(T_D)\approx 5$ for $I=0.5$), a monotonically increasing DDR ; iii) When intensity is high (e.g. $I=0.8$), increasing frequency will match the predictions of the IDH, giving a peaked DDR with coexistence occurring for intermediate frequencies (when $I=0.8$, the peak in diversity is predicted in the range $2\leq \ln(T_D) \leq 6$). However, this coexistence occurs for a narrow range of $f$ (Figure~\ref{fig:simulationdata} in Appendix~\ref{app:simcompare}).
 
-\begin{figure}
-  \includegraphics[width=5in]{difDDRs.pdf}
-  \begin{tabular}{cccccc}
-  1&&2&&3& \\
-  &\includegraphics[width=1.5in]{ddr1.pdf}&&\includegraphics[width=1.5in]{ddr2.pdf}&&\includegraphics[width=1.5in]{ddr3.pdf}
-  \end{tabular}
-   \caption{Different DDRs can be produced by separating disturbance frequency and intensity. For fixed high intensity (1), increasing disturbance intensity produces a unimodal, peaked DDR, as predicted by the IDH. However, fixing intensity at intermediate values and increasing frequency (decreasing time between disturbances, can produce a monotonically increasing DDR (2). Further, there are several disturbance regimes from which an increase in disturbance intensity or frequency has no effect on diversity (3).}
- \label{fig:hockeyTd}
-\end{figure}
-
-When productivity is altered the effects depend on how productivity is implemented. Productivity, the production rate of new biomass, can be in the form of increased seed numbers (fecundity) or by increased juvenile growth rate. If juvenile growth rates are altered by a factor $\zeta$ for both species, then the effect is to alter the time $x$ for which species 2 can succeed with a secondary invasion by a factor $1/\zeta$, such that, for example, a doubling of juvenile growth rates halves the time species 1 juveniles spend vulnerable to competition.  In contrast, the effect of increased (or decreased) seed numbers by a factor $\phi$, with each individual therefore producing $\phi s_i$ seeds, is to increase (or decrease) the magnitude of the exponential term in $P(increase(n))$ and $P(decrease(n))$ by a factor $\phi$. This is equivalent to increasing (or decreasing) the time $x$ for which `invasion' is possible by the same factor. For large communities, considering a proportion of each species non reproductive has an equivalent effect. Note that if both growth rates and seed numbers vary with productivity the effective value of $x$ will be altered by a factor $\phi / \zeta$. Note that this dictates productivity has no effect on the outcome when considering a fecundity-defence trade-off.
 
 \section{Discussion}
-Both life history trade-offs and disturbance events have been suggested as mechanisms that can promote and support high levels of diversity in nature \citep[e.g.][]{adler2000space,denslow1987tropical,sousa1984role,turnbull1999seed}. Here, we demonstrate that trade-offs among the three major life history traits for plants can give coexistence of at least two species competing within the same niche, and numerically quantify the likelihood of coexistence for each trade-off. However, the effectiveness of these trade-offs in supporting multiple species varies dramatically. Where species do not differ in juvenile growth rates, only small communities can possibly support more than a single species, and even in these small communities coexistence is unlikely outside a narrow range of parameters. In contrast, we demonstrate that trade-offs between growth and fecundity or defence can support two species for any community size. Finally, we build on previous theory \citep{miller2011frequency} by demonstrating that differences in how disturbance is measured (here, by frequency, intensity, or a composite measure of the two) can lead to different predictions on the effects of increased disturbance, and differently shaped DDRs. We argue this separation of disturbance into different factors may go some way to explain the varied DDRs observed in natural communities.
+Both life history trade-offs and disturbance events have been suggested as mechanisms that can promote and support high levels of diversity in nature \citep[e.g.][]{adler2000space,denslow1987tropical,sousa1984role,turnbull1999seed}. Here, we demonstrate that trade-offs among the three major life history traits for plants can give coexistence of at least two species competing within the same niche, and numerically quantify the likelihood of coexistence for each trade-off. However, the effectiveness of these trade-offs in supporting multiple species varies dramatically. Where species do not differ in juvenile growth rates, only small communities can possibly support more than a single species, and even in these small communities coexistence is unlikely outside a narrow range of parameters. In contrast, we demonstrate that trade-offs between growth and fecundity or defence can support two species for any community size. Finally, we confirm previous theory \citep{miller2011frequency} by demonstrating that differences in how disturbance is measured (here, by frequency, intensity, or a composite measure of the two) can lead to different predictions on the effects of increased disturbance, and differently shaped DDRs. We argue this separation of disturbance into different factors may go some way to explain the varied DDRs observed in natural communities.
 
 One prediction of the model considered here is that we expect there to be limited selection pressure for a trade-off between fecundity and defence against disturbance, especially in large communities. This result has some support in the literature: from the data in \cite{martin2010dispersal}, \cite{martin2010divergence} concluded that ``it is unlikely that... survivorship come[s] at the expense of fecundity.'' However, there is some evidence for a fecundity-defence trade-off in edge forests exposed to fire. Williams et al (REF) show that after a fire, Australian forest species experience a recruitment boost, yet are more susceptible to fire than the eucalypts they are in competition with, while Hofman et al (REF) find that savanna species suffer lower levels of topkill than forest species. However, both these studies find there are significant levels of re-sprouting following disturbances, a factor excluded from the current model. Further, topkill may act as a form of disturbance defence, as the individual plant is not killed can can retain its present site after the disturbance. Therefore, while resprouting may appear to support a fecundity-defence trade-off, it may be simply an alternative to maintaining above ground biomass during a fire.
 
@@ -192,4 +201,122 @@ Meanwhile, trade-offs between growth and either fecundity or disturbance resista
 We also demonstrate that while the response to disturbance frequency is relatively simple, frequency and intensity can have very different effects on community structure, in accordance with recent theory \citep{miller2011frequency}. We add to this theory by determining analytic conditions for coexistence under given disturbance regimes, and by demonstrating that these conditions are robust to model type, productivity and system size in the case where species differ in juvenile growth rates. In general, this result indicates that it is important to consider the intensity and frequency of disturbance events as separate parameters when studying the effects of disturbance on diversity levels, and emphasise that past disturbances can have long-lasting effects, which persist for decades or centuries, in accordance with \cite{foster1999human}. In the current model, these effects come in the form of persistence of inferior competitor species, which can be sustained for many time steps between disturbances as infrequently as every 400 years. The result here is increased diversity within the community, but disturbance can effect several other aspects of the environment, such as net primary production \citep[e.g.][]{turner2010disturbance}. These results, while arising in a new model, are qualitatively similar to those of \cite{miller2011frequency}, adding weight to the suggestion that the separation of factors controlling disturbance is an important consideration in studying the effects of disturbance on a community. We build on this work by showing that these qualitative results are extremely robust to changes in system capacity and productivity.
 
 We conclude that a trade-off between fecundity, in the form of per capita annual seed production, and juvenile growth rates is more significant in sustaining biodiversity than trade-offs between growth and defence or fecundity and defence, and while species specific reactions to disturbance can slightly improve the likelihood of a fecundity-growth trade-off allowing two species coexistence, this increase is not significant. This concurs with empirical studies, which have found a great deal of support for a trade-off between fecundity and growth rate, or the equivalent competition-colonisation trade-off \citep[e.g.][]{levins1971regional,yu2001competition,tilman1994competition,adler2000space}. The high level of occurrence for this trade-off indicates that it has been an important driver in the evolution of those diverse communities, allowing two or more species to effectively occupy the same resource niche by the different allocation of that resource to their life history traits. That a trade-off between growth and defence can support some coexistence suggests that some support should be found for this trade-off in empirical studies, and this is indeed the case \citep[e.g.][]{wright2010functional,fine2006growth}. However, support for this is much less widespread than the fecundity-growth or competition-colonisation trade-off, which further supports our conclusion that the latter is the more significant driver of biodiversity.
+
+\section*{Acknowledgements}
+This work was funded by a NERC studentship for SN.
+
+\section*{Appendices}
+
+\bappendix
+\section{Approximating the expected change function}
+\label{app:approximations}
+When approximating the average change using the function given by \eqref{avchange}, we must compare these results to the actual expected change. Using the Law of Total Probability ($P(A)=\sum_{b \in B} P(A|b)P(b)$), where $A$ is the probability of increasing species 1 numbers by $k$ individuals, and $B$ the set of possible death numbers in species 2, and summing the results weighted by $k$, the expected change for the model when at the lower boundary $n=1$ is given by
+ \begin{align}
+\label{acreal1difi}&\text{AverageChangeReal}(1)=\frac{-I_1+(N-1)I_2^{N-1}(1-I_1)}{dNT_D}\\
+&+\frac{(1-I_1)\sum_{k=1}^{N-2}\sum_{j=k}^{N-2}k I_2^j(1-I_2)^{N-2-j}{N-2\choose j} Sp_1(1,N-1-j)^k(1-Sp_1(1,N-1-j))^{j-k} {j \choose k}}{dNT_D} \notag \\
+ &+ \left(1-\frac{1}{dNT_D}\right)(P(\text{Increase}(1))-P(\text{Decrease}(1))), \notag
+ \end{align}
+ while at the upper boundary $n=N-1$, the expected change is given by
+\begin{align}
+ \label{acrealtotdifi}&\text{AverageChangeReal}(N-1)= \frac{-I_1^{N-1}(N-1) +I_2(1-I_1^{N-1})}{dNT_D} \\
+ &-\frac{(1-I_2)\sum_{k=1}^{N-2}\sum_{j=k}^{N-2}k I_1^j(1-I_1)^{N-2-j}{N-2\choose j} Sp_1(N-1-j,1)^{j-k}(1-Sp_1(N-1-j,1))^{k} {j \choose k}}{dNT_D} \notag \\
+ &+ \left(1-\frac{1}{dNT_D}\right)(P(\text{Increase}(N-1))-P(\text{Decrease}(N-1))). \notag
+  \end{align}
+  To reduce the computational power needed, and to gather analytic conditions for coexistence, these functions are each approximated by \eqref{avchange}. The error is calculated for varied times between disturbances $\ln(T_D) \in \{1,2,3,4,5,6,7,8\}$ and different intensities $I_i \in \{0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9\}$ for $i=1,2$. In the case of fecundity-growth trade-off, $I_1=I_2$ meant the number of intensity combinations was reduced to 9 for each time between disturbance from 81. Figure~\ref{fig:fdtoapprox} shows how the size of the absolute error between the actual expected change and the approximation declines with system capacity $N$ for a trade-off between fecundity and defence ($x=0$), while Figures~\ref{fig:growthdefenceerrors} and \ref{fig:fecunditygrowtherrors} show that this result holds for the growth-defence trade-off ($s_1=s_2$) and the fecundity-growth trade-off respectively. The approximation is accurate even at relatively small $N>400$. While the results from only one set of parameters are shown, these results are robust to parameter changes.
+     \begin{figure}[th]
+\centering
+   \begin{tabular}{rrrr}
+   (a)&&(b)&\\
+  &\includegraphics[width=2.5in]{FDmeanerr.pdf} && \includegraphics[width=2.5in]{FDmaxerr.pdf} \\
+  (c)&&(d)&\\
+  &\includegraphics[width=2.5in]{FDtmeanerr.pdf} && \includegraphics[width=2.5in]{FDtmaxerr.pdf} \end{tabular}
+   \caption[Errors in approximating average change: fecundity-defence trade-off]{\textbf{Fecundity-defence trade-off:} (a-b)  How the mean (a) and maximum (b) error size at the lower boundary decrease with increased system capacity $N$. (c-d) How the mean (c) and maximum (d) error size at the upper boundary decrease with increased system capacity $N$. The error was calculated for intensities $I_1,I_2=0.1,0.2,0.3,...,0.9$ and time between disturbances $\ln(T_D)=1,2,3,...,8.$ Parameters used are $s_1=500,s_2=50$. Error is calculated as $| \text{AverageChangeReal}(n) - \text{AverageChange}(n) |$ for $n=1,N-1$.}
+    \label{fig:fdtoapprox}
+   \end{figure}   
+    \begin{figure}[th]
+\centering
+   \begin{tabular}{rrrr}
+   (a)&&(b)&\\
+  &\includegraphics[width=2.5in]{GDmeanerr.pdf} && \includegraphics[width=2.5in]{GDmaxerr.pdf} \\
+  (c)&&(d)&\\
+  &\includegraphics[width=2.5in]{GDtmeanerr.pdf} && \includegraphics[width=2.5in]{GDtmaxerr.pdf} \end{tabular}
+   \caption[Errors in approximating average change: growth-defence trade-off]{\textbf{Growth-defence trade-off:} (a-b)  How the mean (a) and maximum (b)  error size at the lower boundary decrease with increased system capacity $N$. (c-d) How the mean (c) and maximum (d) error size at the upper boundary decrease with increased system capacity $N$. The error was calculated for intensities $I_1,I_2=0.1,0.2,0.3,...,0.9$ and time between disturbances $\ln(T_D)=1,2,3,...,8.$ Parameters used are $s_1=50,s_2=50,x=0.06$. Error is calculated as $| \text{AverageChangeReal}(n) - \text{AverageChange}(n) |$ for $n=1,N-1$.}
+     \label{fig:growthdefenceerrors}
+    \end{figure}
+         \begin{figure}[th]
+\centering
+   \begin{tabular}{rrrr}
+   (a)&&(b)&\\
+  &\includegraphics[width=2.5in]{meanerrorovermatrix.pdf} && \includegraphics[width=2.5in]{meanerrorovermatrix.pdf} \\
+  (c)&&(d)&\\
+  &\includegraphics[width=2.5in]{meanerrortotovermatrix.pdf} && \includegraphics[width=2.5in]{maxerrortotovermatrix.pdf} \end{tabular}
+   \caption[Errors in approximating average change: fecundity-growth trade-off]{\textbf{Fecundity-growth trade-off:} (a-b)  How the mean (a) and maximum (b) error size at the lower boundary decrease with increased system capacity $N$. (c-d) How the mean (c) and maximum (d) error size at the upper boundary decrease with increased system capacity $N$. The error was calculated for intensities $I_1=I_2=0.1,0.2,0.3,...,0.9$ and time between disturbances $\ln(T_D)=1,2,3,...,8.$ Parameters used are $s_1=500,s_2=50,x=0.06$. Error is calculated as $| \text{AverageChangeReal}(n) - \text{AverageChange}(n) |$ for $n=1,N-1$.}
+     \label{fig:fecunditygrowtherrors}
+   \end{figure}
+   
+   \section{Analytic solutions for fecundity-defence trade-off}
+   \label{app:fdtoroots}
+    Using Mathematica 8.0.1.0 to set $\text{AverageChange}(1)=0$ and rearranging to solve for $I_2$ gives the solution
+ \begin{align}
+ &I_2=\\
+ &
+\frac{ \splitfrac{N^3 s_1 s_2 T_D - 100 N^3 s_1 s_2 - N^3 s_2^2 T_D + 100 N^3 s_2^2 y + N^2 s_1^2
+   T_D y - 100 N^2 s_1^2 - N^2 s_1 s_2 T_D y - 3 N^2 s_1 s_2 T_D }{\splitfrac{+100 N^2 s_1 s_2
+   y+ 200 N^2 s_1 s_2+ 3 N^2 s_2^2 T_D- 300 N^2 s_2^2 y+ 100 N^2 s_2^2- 2 N
+   s_1^2 T_D y- 100 N s_1^2 y+ 100 N s_1^2}{\splitfrac{+2 N s_1 s_2 T_D y+ 2 N s_1 s_2 T_D+ 100
+   N s_1 s_2- 2 N s_2^2 T_D+ 200 N s_2^2 y- 300 N s_2^2}{\splitfrac{+ 200 s_1^2 y- 200 s_1
+   s_2 y-200 s_1 s_2+200 s_2^2}{\pm \sqrt{ \splitfrac{ \left( \splitfrac{-N^3
+   s_1 s_2 T_D + 100 N^3 s_1 s_2+ N^3 s_2^2 T_D- 100 N^3 s_2^2 y- N^2 s_1^2 T_D
+   y +100 N^2 s_1^2+ N^2 s_1 s_2 T_D y}{ \splitfrac{ + 3 N^2 s_1 s_2 T_D- 100 N^2 s_1 s_2 y- 200
+   N^2 s_1 s_2- 3 N^2 s_2^2 T_D+ 300 N^2 s_2^2 y- 100 N^2 s_2^2}{ \splitfrac{+ 2 N s_1^2 T_D y+ 100 N  s_1^2 y- 100 N s_1^2-2 N s_1 s_2 T_D y-2 N s_1 s_2 T_D-100 N s_1
+   s_2}{+2 N s_2^2 T_D-200 N s_2^2 y+300 N s_2^2-200 s_1^2 y+200 s_1 s_2
+   y+200 s_1 s_2-200 s_2^2}}} \right)^2}{\splitfrac{-4 \left(\splitfrac{ N^3 s_1 s_2 T_D-N^3
+  s_2^2 T_D+N^2 s_1^2 T_D-4 N^2 s_1 s_2 T_D-100 N^2 s_1 s_2+3 N^2
+   s_2^2 T_D}{\splitfrac{+100 N^2 s_2^2-2 N s_1^2 T_D-100 N s_1^2+4 N s_1 s_2 T_D+400 N s_1
+   s_2-2 N s_2^2 T_D}{-300 N s_2^2+200 s_1^2-400 s_1 s_2+200 s_2^2}}\right)}
+   {\times \left(\splitfrac{-100 N^3 s_1 s_2 y+100 N^3 s_2^2 y-100 N^2 s_1^2 y}{\splitfrac{+400 N^2 s_1 s_2
+   y-300 N^2 s_2^2 y}{+100 N s_1^2 y-300 N s_1 s_2 y+200 N s_2^2 y}} \right)}}}}}}}}   {2 \left(-100 N^3 s_1 s_2 y+100 N^3 s_2^2
+   y-100 N^2 s_1^2 y+400 N^2 s_1 s_2 y-300 N^2 s_2^2 y+100 N s_1^2 y-300 N s_1
+   s_2 y+200 N s_2^2 y \right)} \notag
+   \end{align}
+   while $\text{AverageChange}(N-1)=0$ returns
+   \begin{align}
+   &I_2=\\
+   & \frac{ \splitfrac{N^3 s_1^2 T_D y- 100 N^3 s_1^2- N^3 s_1 s_2 T_D y+ 100 N^3 s_1 s_2 y- 3 N^2
+   s_1^2 T_D y -100 N^2 s_1^2 y+ 300 N^2 s_1^2+ 3 N^2 s_1 s_2 T_D y }{ \splitfrac{+N^2 s_1 s_2
+   T_D-200 N^2 s_1 s_2 y- 100 N^2 s_1 s_2- N^2 s_2^2 T_D+ 100 N^2 s_2^2
+   y+ 2 N s_1^2 T_D
+   y+ 300 N s_1^2 y- 200 N s_1^2}{\splitfrac{-2N s_1 s_2 T_D y - 2 N s_1 s_2 T_D- 100 N s_1
+   s_2 y+ 2 N s_2^2 T_D- 100 N s_2^2 y}{\splitfrac{+ 100 N s_2^2- 200 s_1^2 y+ 200 s_1 s_2
+   y +200 s_1 s_2-200 s_2^2}{ \pm \sqrt{\splitfrac{ \left( \splitfrac{-N^3 s_1^2 T_D y+100 N^3 s_1^2+N^3 s_1 s_2 T_D y-100 N^3 s_1 s_2
+   y+3 N^2 s_1^2 T_D y+100 N^2 s_1^2 y}{\splitfrac{-300 N^2 s_1^2-3 N^2 s_1 s_2 T_D y- N^2 s_1
+   s_2 T_D+ 200 N^2 s_1 s_2 y+ 100 N^2 s_1 s_2+ N^2 s_2^2 T_D}{\splitfrac{- 100 N^2 s_2^2 y- 2
+   N s_1^2 T_D y-300 N s_1^2 y+200 N s_1^2+2 N s_1 s_2 T_D y+2 N s_1 s_2
+   T_D}{\splitfrac{+100 N s_1 s_2 y-2 N s_2^2 T_D+100 N s_2^2 y-100 N s_2^2}{+200 s_1^2 y-200
+   s_1 s_2 y-200 s_1 s_2+200 s_2^2}}}}\right)^2}{\splitfrac{-4 \left(\splitfrac{N^3 s_1^2 T_D-N^3 s_1
+   s_2 T_D-3 N^2 s_1^2 T_D-100 N^2 s_1^2+4 N^2 s_1 s_2 T_D+100 N^2 s_1 s_2}{\splitfrac{-N^2
+   s_2^2 T_D+2 N s_1^2 T_D+300 N s_1^2-4 N s_1 s_2 T_D-400 N s_1 s_2}{+2 N
+   s_2^2 T_D+100 N s_2^2-200 s_1^2+400 s_1 s_2-200 s_2^2}}\right)}{ \times \left(\splitfrac{-100 N^3
+   s_1^2 y+100 N^3 s_1 s_2 y+300 N^2 s_1^2 y-400 N^2 s_1 s_2 y}{+100 N^2
+   s_2^2 y-200 N s_1^2 y+300 N s_1 s_2 y-100 N s_2^2 y}\right)}}}}}}}}
+   {2 \left(-100 N^3 s_1^2 y+100 N^3 s_1 s_2 y+300 N^2
+   s_1^2 y-400 N^2 s_1 s_2 y+100 N^2 s_2^2 y-200 N s_1^2 y+300 N s_1 s_2
+   y-100 N s_2^2 y\right)}.   \notag
+   \end{align}
+   Note that each of these solutions takes to form
+   $$
+  \frac{ a\pm \sqrt{b}}{c}
+  $$
+  and therefore there are actually two solutions to each equation. However, in each case, one one of the roots falls within the range of possible intensities $[0,\min(1/y,1)]$. In each case, the positive square root gives a solution outside this range, and we therefore use the negative square roots to determine the region of coexistence.
+   
+   \section{Comparing simulations to analytic results}
+   \label{app:simcompare}
+   We ran a range of time series simulations to verify the predictions given by our analytical results. Simulations are run at $I=0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9$ and $1$ and frequencies $\ln(T_D)=1,2,3,4,5,6,7,8$. Each point has 20 simulations run for $10^5$ time steps, and a linear interpolation algorithm is used between data points. Dark colours in Figure~\ref{fig:simulationdata}(a) are indicative of high probability of coexistence, where both species persist in the community after $10^5$ time steps. The scale to the right shows the percentage of the 20 time series exhibit coexistence. This data indicates that while the outcomes are accurately predicted by the analysis when disturbance events are very frequent (Figure~\ref{fig:simulationdata}(b)), there is a ``tail'' at high intensity and intermediate frequency where coexistence is only possible for a very narrow range of frequencies. However, frequencies that are sufficiently high (such that the lines given by $\text{AverageChange}(1)=0$ and $\text{AverageChange}(N-1)=0$  are approximately constant in $\ln(T_D)$) the average change function provides a good fit to the simulation data (Figure~\ref{fig:simulationdata}). This is also the case for simulations in a system of size $N=10000$, where the average change provides a good fit for frequencies where the region of coexistence is approximately constant in $f$ (results not shown).
+\begin{figure}\begin{tabular}{ll}
+(a)&(b)\\
+ \includegraphics[width=2.5in]{simcoexist.pdf}& \includegraphics[width=2.5in]{hockeyTd.pdf}\end{tabular}
+   \caption[Comparing simulation data with analytical predictions]{\textbf{Comparing simulation data with analytical predictions:} (a) Simulation data showing how stochasticity effects the predicted region of coexistence at high intensity. 20 time series simulations were run for each point. The darker the shading, the greater the number of these time series that exhibited coexistence after $10^5$ time steps. Linear scaling is performed between data points. (b) The region of coexistence predicted by invasion analysis. Parameters $s_1=500,s_2=50,x=0.06,N=1000$}
+ \label{fig:simulationdata}
+\end{figure}
+   
 \end{document}
